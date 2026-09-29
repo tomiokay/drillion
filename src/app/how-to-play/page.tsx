@@ -3,7 +3,7 @@ import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { TIER_BG } from "@/components/core-sample";
 import { cn } from "@/lib/utils";
-import { DAILY_ROUNDS, ROUND_SECONDS, TIERS } from "@/lib/game";
+import { DAILY_ROUNDS, ANSWER_SECONDS, TIERS } from "@/lib/game";
 
 export const metadata: Metadata = { title: "How to play · Drillion" };
 
@@ -17,8 +17,12 @@ export default function HowToPlay() {
         {/* These really are steps in order, so a numbered list fits. */}
         <ol className="flex list-decimal flex-col gap-3 pl-5 text-lg marker:font-bold marker:text-muted-foreground">
           <li>You get a prompt, like &ldquo;a kind of bird.&rdquo;</li>
-          <li>You have {ROUND_SECONDS} seconds to type as many answers as you can. Press Enter after each one.</li>
+          <li>
+            You have {ANSWER_SECONDS} seconds to land an answer. Press Enter to submit. Every correct answer refills the
+            clock to {ANSWER_SECONDS}, and the round ends when it runs out.
+          </li>
           <li>Every correct answer lands in a rock layer. The fewer people who&apos;d think of it, the deeper it goes.</li>
+          <li>Your score drives the drill down. The layer it stops in is your rank for the round.</li>
         </ol>
 
         <section className="flex flex-col gap-4">

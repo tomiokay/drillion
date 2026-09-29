@@ -1,6 +1,8 @@
 import { CoreSample, TIER_TEXT } from "@/components/core-sample";
+import { CountUp } from "@/components/count-up";
+import { RankLadder } from "@/components/rank-ladder";
 import { cn } from "@/lib/utils";
-import { deepestHit, entriesFor, scoreOf, tierById, type Entry } from "@/lib/game";
+import { ROUND_RANKS, deepestHit, entriesFor, scoreOf, scoreToDepth, tierById, type Entry } from "@/lib/game";
 import type { Prompt } from "@/lib/prompts";
 
 type Props = {
@@ -26,7 +28,7 @@ export function RoundSummary({ prompt, hits, misses, children }: Props) {
         <div className="flex flex-col gap-2">
           <p className="text-sm text-muted-foreground">{prompt.text}</p>
           <p className="font-wide text-6xl font-extrabold tabular-nums">
-            {score}
+            <CountUp to={score} />
             <span className="ml-2 text-lg font-semibold text-muted-foreground">points</span>
           </p>
           <p className="text-muted-foreground">
@@ -34,14 +36,21 @@ export function RoundSummary({ prompt, hits, misses, children }: Props) {
           </p>
         </div>
 
+        {children}
+
         {deepest ? (
-          <div className="border-l-4 border-current pl-4" style={{ color: `var(--tier-${deepest.tier})` }}>
+          <div
+            className="animate-ladder-in border-l-4 border-current pl-4"
+            style={{ color: `var(--tier-${deepest.tier})`, animationDelay: "200ms" }}
+          >
             <p className="text-sm text-muted-foreground">Deepest answer</p>
             <p className="font-wide text-2xl font-extrabold capitalize">{deepest.canonical}</p>
             <p className="text-sm text-foreground">{tierById(deepest.tier).line}</p>
           </div>
         ) : (
-          <p className="text-muted-foreground">No answers this round. Next time, type anything that fits and press Enter fast.</p>
+          <p className="text-muted-foreground">
+            No answers this round. Next time, type anything that fits and press Enter fast.
+          </p>
         )}
 
         {missed.length > 0 && (
@@ -57,10 +66,15 @@ export function RoundSummary({ prompt, hits, misses, children }: Props) {
           </div>
         )}
 
-        {children}
+        <RankLadder score={score} scale={ROUND_RANKS} title="Round rank" />
       </div>
 
-      <CoreSample hits={hits} className="min-h-[420px]" />
+      <CoreSample
+        hits={hits}
+        depth={scoreToDepth(score, ROUND_RANKS)}
+        descend
+        className="min-h-[420px] md:sticky md:top-6"
+      />
     </div>
   );
 }

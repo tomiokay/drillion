@@ -1,6 +1,7 @@
 import { PROMPTS, type Pack, type Prompt } from "./prompts";
 
-export const ROUND_SECONDS = 60;
+// The clock starts at this and refills to it after every correct answer.
+export const ANSWER_SECONDS = 25;
 export const DAILY_ROUNDS = 5;
 
 export type TierId = "topsoil" | "clay" | "bedrock" | "magma" | "drillion";
@@ -23,6 +24,46 @@ export const TIERS: (Tier & { upTo: number })[] = [
 ];
 
 export const tierById = (id: TierId) => TIERS.find((t) => t.id === id)!;
+
+// Shown in the feedback line and the hit popup.
+export const HIT_CALL: Record<TierId, string> = {
+  topsoil: "Surface find",
+  clay: "Solid dig",
+  bedrock: "Struck rock",
+  magma: "Magma!",
+  drillion: "Drillion!",
+};
+
+// Score ranks share the layer names: the layer your drill ends in is your rank.
+// `mins` are the score where each layer starts; `cap` is where the drill hits the core.
+export type RankScale = { mins: number[]; cap: number };
+export const ROUND_RANKS: RankScale = { mins: [0, 15, 35, 60, 90], cap: 140 };
+export const DAILY_RANKS: RankScale = { mins: [0, 70, 170, 290, 430], cap: 650 };
+
+export const RANK_LINES: Record<TierId, string> = {
+  topsoil: "Scratched the surface. The worms barely noticed.",
+  clay: "Past the roots. The drill hums along.",
+  bedrock: "Hard rock now. Sparks fly off the bit.",
+  magma: "The casing is glowing. Keep going.",
+  drillion: "Through the crust, straight to the core.",
+};
+
+export function rankIndex(score: number, scale: RankScale): number {
+  let i = 0;
+  scale.mins.forEach((min, idx) => {
+    if (score >= min) i = idx;
+  });
+  return i;
+}
+
+// Continuous depth from 0 (surface) to 5 (core). The whole part is the layer,
+// the fraction is how far into that layer the drill has gone.
+export function scoreToDepth(score: number, scale: RankScale): number {
+  const i = rankIndex(score, scale);
+  const start = scale.mins[i];
+  const end = scale.mins[i + 1] ?? scale.cap;
+  return Math.min(5, i + Math.min(1, (score - start) / (end - start)));
+}
 
 export type Entry = {
   canonical: string;

@@ -6,15 +6,19 @@ import { ArrowRightIcon, ClipboardDocumentIcon, CheckIcon } from "@heroicons/rea
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Round, type RoundOutcome } from "@/components/round";
 import { RoundSummary } from "@/components/round-summary";
-import { TIER_TEXT } from "@/components/core-sample";
+import { CoreSample, TIER_TEXT } from "@/components/core-sample";
+import { CountUp } from "@/components/count-up";
+import { RankLadder } from "@/components/rank-ladder";
 import { cn } from "@/lib/utils";
 import {
+  DAILY_RANKS,
   DAILY_ROUNDS,
   dailyPrompts,
   deepestHit,
   digNumber,
   entriesFor,
   scoreOf,
+  scoreToDepth,
   tierById,
   todayKey,
   type Entry,
@@ -27,9 +31,7 @@ type Played = { hits: Entry[]; misses: number };
 function revive(rec: DailyRecord, prompts: ReturnType<typeof dailyPrompts>): Played[] {
   return rec.rounds.map((r, i) => {
     const entries = entriesFor(prompts[i]);
-    const hits = r.hits
-      .map((name) => entries.find((e) => e.canonical === name))
-      .filter((e) => e !== undefined);
+    const hits = r.hits.map((name) => entries.find((e) => e.canonical === name)).filter((e) => e !== undefined);
     return { hits, misses: r.misses };
   });
 }
@@ -80,7 +82,12 @@ export function DailyGame() {
     return (
       <RoundSummary prompt={prompts[viewing]} hits={p.hits} misses={p.misses}>
         <div>
-          <Button size="lg" className="h-12 px-6 text-base font-bold" onClick={() => setViewing(isLast ? -1 : null)} autoFocus>
+          <Button
+            size="lg"
+            className="h-12 px-6 text-base font-bold"
+            onClick={() => setViewing(isLast ? -1 : null)}
+            autoFocus
+          >
             {isLast ? "See today's results" : `Next prompt (${idx + 1} of ${DAILY_ROUNDS})`}
             <ArrowRightIcon className="size-5" aria-hidden />
           </Button>
@@ -117,43 +124,63 @@ export function DailyGame() {
   };
 
   return (
-    <div className="flex flex-col gap-10">
-      <div className="flex flex-col gap-2">
-        <p className="text-muted-foreground">Dig #{digNumber()} is done. A new one opens at midnight.</p>
-        <p className="font-wide text-7xl font-black tabular-nums">
-          {total}
-          <span className="ml-3 text-xl font-semibold text-muted-foreground">points</span>
-        </p>
-      </div>
+    <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_300px] md:gap-10">
+      <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-2">
+          <p className="text-muted-foreground">Dig #{digNumber()} is done. A new one opens at midnight.</p>
+          <p className="font-wide text-7xl font-black tabular-nums">
+            <CountUp to={total} duration={1600} />
+            <span className="ml-3 text-xl font-semibold text-muted-foreground">points</span>
+          </p>
+        </div>
 
-      <ol className="flex flex-col divide-y divide-border overflow-hidden rounded-xl border border-border">
-        {played.map((p, i) => {
-          const d = deepestHit(p.hits);
-          return (
-            <li key={prompts[i].id} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 bg-card px-5 py-4">
-              <span className="font-semibold">{prompts[i].text}</span>
-              <span className="flex items-baseline gap-4 text-sm">
-                {d && (
-                  <span className={cn("font-semibold capitalize", TIER_TEXT[d.tier])}>
-                    {d.canonical}, {tierById(d.tier).name}
-                  </span>
-                )}
-                <span className="font-wide text-lg font-extrabold tabular-nums">{scoreOf(p.hits)}</span>
-              </span>
-            </li>
-          );
-        })}
-      </ol>
+        <ol className="flex flex-col divide-y divide-border overflow-hidden rounded-xl border border-border">
+          {played.map((p, i) => {
+            const d = deepestHit(p.hits);
+            return (
+              <li
+                key={prompts[i].id}
+                className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 bg-card px-5 py-4"
+              >
+                <span className="font-semibold">{prompts[i].text}</span>
+                <span className="flex items-baseline gap-4 text-sm">
+                  {d && (
+                    <span className={cn("font-semibold capitalize", TIER_TEXT[d.tier])}>
+                      {d.canonical}, {tierById(d.tier).name}
+                    </span>
+                  )}
+                  <span className="font-wide text-lg font-extrabold tabular-nums">{scoreOf(p.hits)}</span>
+                </span>
+              </li>
+            );
+          })}
+        </ol>
 
-      <div className="flex flex-wrap gap-3">
-        <Button size="lg" className="h-12 px-6 text-base font-bold" onClick={share}>
-          {copied ? <CheckIcon className="size-5" aria-hidden /> : <ClipboardDocumentIcon className="size-5" aria-hidden />}
-          {copied ? "Copied" : "Copy result"}
-        </Button>
-        <Link href="/unlimited" className={cn(buttonVariants({ size: "lg", variant: "outline" }), "h-12 px-6 text-base font-bold")}>
-          Keep drilling in unlimited
-        </Link>
+        <div className="flex flex-wrap gap-3">
+          <Button size="lg" className="h-12 px-6 text-base font-bold" onClick={share}>
+            {copied ? (
+              <CheckIcon className="size-5" aria-hidden />
+            ) : (
+              <ClipboardDocumentIcon className="size-5" aria-hidden />
+            )}
+            {copied ? "Copied" : "Copy result"}
+          </Button>
+          <Link
+            href="/unlimited"
+            className={cn(buttonVariants({ size: "lg", variant: "outline" }), "h-12 px-6 text-base font-bold")}
+          >
+            Keep drilling in unlimited
+          </Link>
+        </div>
+
+        <RankLadder score={total} scale={DAILY_RANKS} title="Today's rank" />
       </div>
+      <CoreSample
+        hits={played.flatMap((p) => p.hits)}
+        depth={scoreToDepth(total, DAILY_RANKS)}
+        descend
+        className="min-h-[420px] md:sticky md:top-6"
+      />
     </div>
   );
 }

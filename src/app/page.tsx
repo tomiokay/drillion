@@ -43,7 +43,7 @@ export default function Home() {
           </div>
 
           <figure className="flex flex-col gap-3">
-            <CoreSample hits={demoHits} className="min-h-[380px]" />
+            <CoreSample hits={demoHits} depth={4.6} descend className="min-h-[380px]" />
             <figcaption className="text-sm text-muted-foreground">
               Five answers to &ldquo;{demoPrompt.text.toLowerCase()}&rdquo;, sorted by how few people think of them.
             </figcaption>
