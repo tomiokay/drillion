@@ -294,4 +294,271 @@ export const PROMPTS: Prompt[] = [
     answers:
       "sunflower, sunshine, sunglasses, sunset, sunrise, sunburn, sunday, sunscreen, sunny, sundae, sunlight, sundown, sunbathe, sunroof, sunblock, sunspot, sundial, sunbeam, suntan, sunken, sunk, sunstroke, sundry, sunfish, sunlit, sunroom, sundress, sunhat, sunbird, sunder, sunlamp, sunporch, sunup, sunbelt, sunshade, sunbonnet, sunrise industry, sunstone, sundew, sunward, sunna, sunnah, sunnite",
   },
+  // ---- Expansion so every pack has enough prompts for chapters ----
+
+  // Animals
+  {
+    id: "jungle-animals",
+    pack: "animals",
+    text: "An animal that lives in a rainforest",
+    answers:
+      "monkey, jaguar, parrot, sloth, toucan, snake, frog, gorilla, tiger, orangutan, chimpanzee, anaconda, tree frog/poison dart frog, leopard, macaw, lemur, boa, iguana, chameleon, tapir, capybara, ocelot, spider monkey, howler monkey, bat, ant, butterfly, gecko, okapi, bonobo, kinkajou, coati, piranha, caiman, harpy eagle, hornbill, cassowary, pangolin, binturong, tarsier, slow loris, quetzal, agouti, peccary, bushmaster, glass frog, hoatzin, saki, tamarin, marmoset",
+  },
+  {
+    id: "big-animals",
+    pack: "animals",
+    text: "An animal bigger than a person",
+    answers:
+      "elephant, giraffe, whale, horse, hippo, rhino, bear, cow, shark, moose, gorilla, crocodile, camel, polar bear, bison, buffalo, grizzly bear, walrus, tiger, lion, orca, dolphin, alligator, elk, ostrich, yak, zebra, manatee, giant squid, anaconda, komodo dragon, sea lion, elephant seal, okapi, tapir, wildebeest, kudu, eland, manta ray, sunfish, whale shark, leatherback turtle, musk ox, water buffalo, gaur, beluga, narwhal, dugong, saltwater crocodile",
+  },
+  {
+    id: "dog-breeds",
+    pack: "animals",
+    text: "A dog breed",
+    answers:
+      "golden retriever, labrador/lab, german shepherd, poodle, bulldog, beagle, chihuahua, husky, pug, dachshund, corgi, rottweiler, pit bull, boxer, shih tzu, border collie, great dane, yorkie/yorkshire terrier, pomeranian, doberman, french bulldog, dalmatian, maltese, cocker spaniel, australian shepherd, saint bernard, bernese mountain dog, greyhound, bichon frise, schnauzer, shiba inu, akita, chow chow, samoyed, mastiff, jack russell, basset hound, bloodhound, newfoundland, weimaraner, whippet, vizsla, sheltie, cavalier king charles, papillon, pekingese, malamute, havanese, basenji, borzoi, saluki, komondor, puli, xoloitzcuintli, otterhound, lagotto romagnolo, kooikerhondje, mudi, azawakh",
+  },
+  {
+    id: "reptiles",
+    pack: "animals",
+    text: "A reptile or amphibian",
+    answers:
+      "snake, lizard, turtle, frog, crocodile, alligator, iguana, gecko, chameleon, toad, tortoise, salamander, komodo dragon, rattlesnake, python, cobra, newt, axolotl, bearded dragon, anaconda, boa, sea turtle, gila monster, monitor lizard, king cobra, black mamba, viper, garter snake, skink, caiman, tree frog, bullfrog, horned lizard, anole, tuatara, gharial, frilled lizard, basilisk, caecilian, mudpuppy, hellbender, olm, thorny devil, taipan, boomslang, sidewinder, tegu, uromastyx, matamata",
+  },
+  {
+    id: "baby-animals",
+    pack: "animals",
+    text: "A name for a baby animal",
+    answers:
+      "puppy, kitten, calf, foal, cub, chick, lamb, piglet, duckling, kid, bunny, fawn, joey, tadpole, pup, gosling, colt, filly, caterpillar, larva, hatchling, owlet, eaglet, cygnet, kit, leveret, poult, squab, elver, fry, fingerling, spat, cria, nymph, maggot, grub, hoglet, eyas, codling, porcupette, keet, puggle, smolt, parr",
+  },
+
+  // Food
+  {
+    id: "candy",
+    pack: "food",
+    text: "A kind of candy",
+    answers:
+      "chocolate, gummy bears, lollipop, skittles, m&ms, snickers, jelly beans, licorice, starburst, kit kat, reese's, sour patch kids, twix, cotton candy, jolly rancher, peppermint, candy cane, caramel, toffee, gumdrop, taffy, nerds, airheads, milky way, butterfinger, hershey's, warheads, smarties, nougat, fudge, marshmallow, rock candy, gobstopper, pez, tootsie roll, peanut brittle, mints, life savers, haribo, sugar daddy, mike and ike, dots, laffy taffy, bit-o-honey, turkish delight, marzipan, halva, praline, dragee, pastille, nonpareils, jordan almonds, charleston chew, necco wafers, abba zaba",
+  },
+  {
+    id: "sandwich",
+    pack: "food",
+    text: "Something you can put in a sandwich",
+    answers:
+      "cheese, ham, turkey, lettuce, tomato, peanut butter, jelly, mayo/mayonnaise, mustard, bacon, chicken, pickles, onion, tuna, egg, salami, roast beef, avocado, cucumber, ketchup, hummus, butter, pepperoni, spinach, bologna, nutella, banana, pastrami, sprouts, peppers, jam, pesto, sauerkraut, coleslaw, egg salad, falafel, meatball, tofu, prosciutto, brie, fried green tomato, apple, honey, aioli, chutney, kimchi, marshmallow fluff, giardiniera, mortadella, capicola, olive tapenade, pimento cheese",
+  },
+  {
+    id: "spices",
+    pack: "food",
+    text: "A spice or herb",
+    answers:
+      "salt, pepper, cinnamon, garlic, basil, oregano, paprika, cumin, ginger, nutmeg, rosemary, thyme, parsley, cilantro, turmeric, chili powder, mint, dill, bay leaf, sage, cayenne, curry, vanilla, clove, onion powder, cardamom, chives, coriander, saffron, allspice, mustard seed, fennel, star anise, tarragon, marjoram, lemongrass, sesame, poppy seed, celery seed, sumac, fenugreek, za'atar, garam masala, juniper, caraway, asafoetida, galangal, mace, annatto, epazote, grains of paradise, long pepper, nigella, amchur, lovage, savory",
+  },
+
+  // Places
+  {
+    id: "countries-asia",
+    pack: "places",
+    text: "A country in Asia",
+    answers:
+      "china, japan, india, korea/south korea, thailand, vietnam, philippines, indonesia, north korea, pakistan, malaysia, singapore, russia, saudi arabia, iran, iraq, israel, turkey, afghanistan, nepal, bangladesh, sri lanka, mongolia, taiwan, cambodia, laos, myanmar/burma, uae/united arab emirates, qatar, syria, jordan, lebanon, kazakhstan, uzbekistan, bhutan, maldives, kuwait, oman, yemen, bahrain, brunei, kyrgyzstan, tajikistan, turkmenistan, timor leste/east timor, georgia, armenia, azerbaijan, cyprus",
+  },
+  {
+    id: "us-cities",
+    pack: "places",
+    text: "A US city",
+    answers:
+      "new york, los angeles, chicago, miami, houston, san francisco, seattle, boston, las vegas, dallas, atlanta, denver, phoenix, philadelphia, washington dc, san diego, austin, detroit, nashville, orlando, portland, new orleans, minneapolis, baltimore, san antonio, honolulu, salt lake city, charlotte, pittsburgh, cleveland, st louis, kansas city, indianapolis, columbus, sacramento, memphis, milwaukee, tampa, albuquerque, tucson, omaha, anchorage, boise, savannah, charleston, buffalo, richmond, spokane, tulsa, fresno, des moines, birmingham, louisville, el paso, santa fe, burlington, juneau, duluth, fargo, cheyenne, bismarck, montpelier, pierre",
+  },
+  {
+    id: "islands",
+    pack: "places",
+    text: "An island",
+    answers:
+      "hawaii, greenland, madagascar, iceland, japan, ireland, cuba, jamaica, bali, australia, puerto rico, new zealand, sicily, britain/great britain, manhattan, maui, fiji, tahiti, bermuda, bahamas, sri lanka, crete, cyprus, sardinia, corsica, taiwan, borneo, sumatra, java, tasmania, galapagos, easter island, santorini, malta, mallorca, ibiza, aruba, barbados, martha's vineyard, nantucket, long island, vancouver island, newfoundland, baffin island, sumba, socotra, zanzibar, svalbard, faroe islands, tristan da cunha, st helena, pitcairn, kerguelen, novaya zemlya, bora bora, lanai, molokai, kauai",
+  },
+  {
+    id: "mountains",
+    pack: "places",
+    text: "A mountain or mountain range",
+    answers:
+      "mount everest/everest, rocky mountains/rockies, alps, himalayas, andes, appalachian mountains/appalachians, kilimanjaro, mount fuji, k2, mount rainier, mount st helens, matterhorn, denali, mont blanc, mount olympus, pikes peak, mount whitney, sierra nevada, pyrenees, urals, mount vesuvius, mount etna, mount kenya, smoky mountains, mount hood, aconcagua, atlas mountains, carpathians, mount elbrus, kangchenjunga, annapurna, table mountain, ben nevis, mount shasta, mount kosciuszko, cascades, teton/grand teton, mount ararat, mount sinai, mauna kea, mount cook/aoraki, eiger, dolomites, hindu kush, karakoram, tian shan, brooks range, zagros, ruwenzori, mount erebus, vinson massif, nanga parbat, lhotse, makalu, cho oyu",
+  },
+
+  // Science
+  {
+    id: "body-organs",
+    pack: "science",
+    text: "Something your body makes or needs",
+    answers:
+      "blood, water, oxygen, sweat, tears, saliva/spit, food, protein, vitamins, sleep, calcium, iron, hair, skin cells, energy, mucus/snot, earwax, bile, hormones, insulin, sugar/glucose, fat, salt, potassium, adrenaline, antibodies, red blood cells, white blood cells, plasma, carbon dioxide, urine, collagen, melatonin, serotonin, dopamine, keratin, enzymes, platelets, lymph, cortisol, estrogen, testosterone, vitamin d, fiber, magnesium, zinc, endorphins, histamine, lactic acid, stomach acid, oxytocin, sebum, myelin, surfactant",
+  },
+  {
+    id: "rocks-minerals",
+    pack: "science",
+    text: "A rock, mineral or gemstone",
+    answers:
+      "diamond, granite, ruby, emerald, quartz, marble, sapphire, gold, limestone, obsidian, coal, amethyst, sandstone, basalt, jade, opal, pumice, slate, topaz, pearl, salt/halite, turquoise, graphite, garnet, onyx, shale, mica, talc, gypsum, flint, chalk, pyrite, lava rock, aquamarine, citrine, agate, malachite, lapis lazuli, feldspar, hematite, magnetite, calcite, fluorite, gneiss, schist, tourmaline, peridot, jasper, moonstone, bloodstone, alexandrite, tanzanite, zircon, beryl, galena, cinnabar, labradorite, rhodochrosite, benitoite, painite, kimberlite, serpentinite, travertine, tuff",
+  },
+  {
+    id: "inventions",
+    pack: "science",
+    text: "An invention that changed the world",
+    answers:
+      "wheel, internet, electricity, light bulb, phone/telephone, car, airplane, computer, printing press, fire, smartphone, television/tv, radio, steam engine, penicillin, vaccine, camera, refrigerator, gun, compass, clock, telescope, microscope, train, writing, paper, money, plow, electric battery/battery, x ray, gps, nuclear power, rocket, satellite, transistor, plastic, glass, concrete, antibiotics, eyeglasses, sewing machine, typewriter, elevator, air conditioning, washing machine, microwave, vacuum cleaner, toilet, anesthesia, pasteurization, barcode, shipping container, laser, solar panel, cotton gin, telegraph, gunpowder, stirrup, abacus, aqueduct, movable type, lithium ion battery, haber process",
+  },
+  {
+    id: "scientists",
+    pack: "science",
+    text: "A famous scientist or inventor",
+    answers:
+      "albert einstein/einstein, isaac newton/newton, thomas edison/edison, nikola tesla/tesla, marie curie/curie, charles darwin/darwin, galileo, stephen hawking/hawking, benjamin franklin/franklin, leonardo da vinci/da vinci, alexander graham bell/bell, wright brothers, archimedes, copernicus, aristotle, louis pasteur/pasteur, alan turing/turing, ada lovelace/lovelace, kepler, mendel, carl sagan/sagan, neil degrasse tyson, bill nye, rosalind franklin, richard feynman/feynman, niels bohr/bohr, max planck/planck, james watt, faraday, alexander fleming/fleming, jane goodall/goodall, euclid, pythagoras, hippocrates, oppenheimer, enrico fermi/fermi, marconi, gutenberg, dmitri mendeleev/mendeleev, rutherford, maxwell, heisenberg, schrodinger, dirac, lise meitner/meitner, emmy noether/noether, ibn al haytham, al khwarizmi, hypatia, tycho brahe, chien shiung wu, barbara mcclintock, srinivasa ramanujan/ramanujan, katherine johnson",
+  },
+  {
+    id: "phobias",
+    pack: "science",
+    text: "Something people are scared of",
+    answers:
+      "spiders, heights, snakes, the dark, clowns, death, public speaking, needles, sharks, ghosts, flying, bugs, failure, being alone, small spaces, dogs, the ocean, thunder, blood, germs, doctors, dentist, crowds, rejection, bees, fire, drowning, monsters, rats, birds, change, commitment, holes/trypophobia, aliens, dolls, the unknown, cockroaches, deep water, elevators, bridges, mirrors, open spaces, frogs, horses, butterflies, buttons, the number 13, long words, beards, belly buttons, cotton balls, chopsticks, peanut butter, palindromes",
+  },
+
+  // Sports
+  {
+    id: "video-games",
+    pack: "sports",
+    text: "A video game",
+    answers:
+      "minecraft, fortnite, mario/super mario, tetris, pac man, call of duty, roblox, zelda/legend of zelda, pokemon, grand theft auto/gta, among us, sonic, halo, mario kart, fifa, the sims, overwatch, league of legends, animal crossing, donkey kong, street fighter, mortal kombat, space invaders, pong, galaga, final fantasy, skyrim, red dead redemption, apex legends, valorant, counter strike, world of warcraft, portal, half life, doom, kirby, metroid, smash bros/super smash bros, wii sports, angry birds, candy crush, flappy bird, stardew valley, terraria, undertale, celeste, hollow knight, hades, elden ring, dark souls, bloodborne, tomb raider, bioshock, journey, katamari, okami, outer wilds, disco elysium, myst, lemmings, frogger, qbert, dig dug",
+  },
+  {
+    id: "card-games",
+    pack: "sports",
+    text: "A card game",
+    answers:
+      "poker, uno, go fish, solitaire, blackjack, war, crazy eights, old maid, rummy, hearts, spades, bridge, gin rummy, slapjack, president, speed, euchre, cribbage, spit, bs/cheat, egyptian ratscrew, magic the gathering, pokemon cards, yugioh, baccarat, canasta, texas holdem, pinochle, exploding kittens, skip bo, phase 10, cards against humanity, rook, durak, bezique, piquet, skat, sheepshead, pitch, whist, briscola, scopa, belote, mus, tarot, hanafuda, dou dizhu, big two, mau mau, klondike, freecell, spider solitaire",
+  },
+  {
+    id: "sport-gear",
+    pack: "sports",
+    text: "A piece of sports equipment",
+    answers:
+      "ball, bat, helmet, racket, glove, net, goal, hockey stick, skates, cleats, skis, snowboard, basketball, football, soccer ball, golf club, shin guards, mouthguard, puck, tennis ball, baseball, jersey, hoop, surfboard, skateboard, bicycle, paddle, goggles, frisbee, dumbbell, jump rope, whistle, kneepads, pads, sled, shuttlecock, javelin, discus, hurdle, pole vault pole, oar, bow, arrow, foil/epee/sabre, boxing gloves, punching bag, trampoline, balance beam, pommel horse, chalk, starting block, curling stone, broom, mallet, wicket, stumps, cricket bat, lacrosse stick, jai alai cesta, sliotar, hurley, caman",
+  },
+  {
+    id: "athletes",
+    pack: "sports",
+    text: "A famous athlete",
+    answers:
+      "michael jordan, lebron james, serena williams, tom brady, usain bolt, cristiano ronaldo/ronaldo, lionel messi/messi, muhammad ali, tiger woods, kobe bryant, michael phelps, simone biles, babe ruth, wayne gretzky, roger federer, pele, stephen curry, shaq/shaquille o'neal, venus williams, rafael nadal, novak djokovic, david beckham, jackie robinson, mike tyson, derek jeter, peyton manning, magic johnson, larry bird, kevin durant, neymar, mbappe, tony hawk, shaun white, lindsey vonn, mia hamm, megan rapinoe, carl lewis, jesse owens, bo jackson, jim thorpe, nadia comaneci, eliud kipchoge, sachin tendulkar, diego maradona, zinedine zidane, johan cruyff, ayrton senna, lewis hamilton, michael schumacher, katie ledecky, florence griffith joyner, bill russell, wilt chamberlain, kareem abdul jabbar, gordie howe, bobby orr, martina navratilova, steffi graf, greg louganis, sugar ray robinson",
+  },
+  {
+    id: "playground",
+    pack: "sports",
+    text: "A game kids play outside",
+    answers:
+      "tag, hide and seek, hopscotch, jump rope, kickball, freeze tag, red rover, capture the flag, four square, dodgeball, tetherball, duck duck goose, simon says, red light green light, hot potato, marbles, sardines, kick the can, hacky sack, wall ball, foursquare, jacks, chalk, catch, frisbee, cops and robbers, manhunt, sharks and minnows, ghost in the graveyard, mother may i, statues, tug of war, leapfrog, sack race, three legged race, spud, hula hoop, pogo stick, stickball, cornhole, bocce, horseshoes, ring around the rosie, london bridge, british bulldog, what's the time mr wolf, elastics, pooh sticks, conkers, knucklebones, kabaddi, kho kho, gilli danda, tumbang preso",
+  },
+  {
+    id: "chess-words",
+    pack: "sports",
+    text: "A word you hear in chess",
+    answers:
+      "checkmate, king, queen, pawn, rook/castle, bishop, knight, check, castling, stalemate, opening, gambit, en passant, promotion, draw, resign, fork, pin, board, square, file, rank, endgame, middlegame, blunder, grandmaster, tempo, sacrifice, skewer, zugzwang, fianchetto, discovered check, sicilian, queen's gambit, ruy lopez, french defense, caro kann, elo, blitz, bullet, rapid, threefold repetition, fifty move rule, zwischenzug, outpost, isolated pawn, passed pawn, doubled pawns, back rank, smothered mate, opposition, triangulation, j'adoube, patzer, kibitzer, desperado",
+  },
+  {
+    id: "team-names",
+    pack: "sports",
+    text: "An animal used as a sports team name",
+    answers:
+      "eagles, bears, tigers, lions, panthers, wolves, bulls, hawks, falcons, dolphins, sharks, jaguars, broncos, colts, rams, ravens, cardinals, bengals, wildcats, mustangs, raptors, grizzlies, hornets, penguins, ducks, coyotes, bucks, cubs, orioles, blue jays, marlins, rays, seahawks, pelicans, timberwolves, badgers, gators, bulldogs, huskies, gophers, wolverines, longhorns, razorbacks, cougars, buffaloes, owls, beavers, terrapins, hokies, anteaters, banana slugs, horned frogs, gamecocks, jackrabbits, roadrunners, ospreys, mudhens, sea dogs",
+  },
+
+  // Everyday
+  {
+    id: "car-brands",
+    pack: "everyday",
+    text: "A car brand",
+    answers:
+      "toyota, ford, honda, chevrolet/chevy, tesla, bmw, mercedes/mercedes benz, audi, nissan, jeep, volkswagen/vw, hyundai, kia, subaru, lexus, ferrari, lamborghini, porsche, dodge, mazda, cadillac, gmc, ram, buick, volvo, jaguar, land rover, mitsubishi, acura, infiniti, lincoln, chrysler, bugatti, maserati, rolls royce, bentley, aston martin, mclaren, mini, fiat, alfa romeo, genesis, rivian, lucid, polestar, peugeot, renault, citroen, skoda, seat, saab, suzuki, pagani, koenigsegg, lotus, lada, dacia, tata, mahindra, byd, geely, proton, holden, studebaker, delorean, pontiac, oldsmobile, plymouth, saturn, hummer",
+  },
+  {
+    id: "camping",
+    pack: "everyday",
+    text: "Something you'd bring camping",
+    answers:
+      "tent, sleeping bag, flashlight, water, food, marshmallows, matches, lighter, firewood, bug spray, pillow, lantern, hot dogs, cooler, chairs, sunscreen, first aid kit, map, compass, knife, rope, tarp, backpack, jacket, hiking boots, s'mores, graham crackers, chocolate, toilet paper, stove, pots, axe, hammock, headlamp, batteries, water bottle, blanket, radio, binoculars, fishing rod, cards, guitar, bear spray, water filter, multitool, duct tape, trowel, paracord, carabiner, whistle, mosquito net, tent stakes, mallet, bivy, trekking poles, bear canister, sit pad, firestarter, dutch oven, percolator, camp shower",
+  },
+  {
+    id: "office",
+    pack: "everyday",
+    text: "Something you'd find in an office",
+    answers:
+      "computer, desk, chair, printer, phone, pen, paper, stapler, coffee maker, keyboard, mouse, monitor, filing cabinet, whiteboard, calendar, laptop, sticky notes, paper clips, folder, scissors, tape, water cooler, clock, trash can, copier, scanner, plant, lamp, notepad, binder, envelope, calculator, desk organizer, cubicle, conference room, projector, shredder, hole punch, rubber band, mug, badge, headset, vending machine, fridge, microwave, fax machine, label maker, laminator, rolodex, inbox tray, letter opener, paperweight, swivel chair, ergonomic keyboard, standing desk, bulletin board, thumbtack, highlighter, post it, filing tray, franking machine",
+  },
+  {
+    id: "superpowers",
+    pack: "everyday",
+    text: "A superpower",
+    answers:
+      "flying/flight, invisibility, super strength, teleportation, mind reading/telepathy, time travel, super speed, x ray vision, shape shifting, healing, telekinesis, immortality, laser eyes, fire, ice, controlling water, breathing underwater, talking to animals, stopping time, force fields, elasticity, super hearing, night vision, weather control, mind control, cloning, shrinking, growing, wall crawling, electricity, regeneration, precognition, invulnerability, phasing, sonic scream, magnetism, gravity control, plant control, luck, duplication, power absorption, technopathy, empathy, astral projection, dream walking, probability manipulation, echolocation, photographic memory, omnilingualism, chlorokinesis, umbrakinesis, cryokinesis",
+  },
+  {
+    id: "rainy-day",
+    pack: "everyday",
+    text: "Something to do on a rainy day",
+    answers:
+      "watch a movie, read, play video games, sleep/nap, board games, bake, puzzle, draw, cook, watch tv, play cards, clean, build a fort, listen to music, write, take a bath, craft, paint, play in puddles, call a friend, knit, journal, yoga, homework, online shopping, organize closet, scroll phone, play an instrument, learn something, museum, bowling, indoor rock climbing, library, coffee shop, movie theater, aquarium, sew, scrapbook, origami, meditate, binge a show, make soup, write letters, karaoke, dance, lego, model building, calligraphy, terrarium, bread baking, jigsaw, crossword, sudoku, chess",
+  },
+  {
+    id: "birthday",
+    pack: "everyday",
+    text: "Something at a birthday party",
+    answers:
+      "cake, balloons, presents/gifts, candles, ice cream, party hats, friends, games, pizza, music, decorations, cupcakes, streamers, banner, piñata, goody bags, wrapping paper, cards, confetti, punch, juice, chips, candy, singing, party poppers, noisemakers, plates, napkins, clown, magician, bounce house, face painting, photo booth, dancing, pin the tail on the donkey, musical chairs, karaoke, party favors, tiara, crown, sparklers, cake topper, sprinkles, frosting, guest list, invitations, thank you notes, kazoo, bubble machine, balloon animals, petting zoo, scavenger hunt, treasure map",
+  },
+
+  // Words
+  {
+    id: "words-z",
+    pack: "words",
+    text: "A word that starts with Z",
+    answers:
+      "zebra, zoo, zero, zip, zipper, zombie, zone, zoom, zucchini, zigzag, zap, zest, zen, zany, zeal, zinc, zodiac, zit, zing, zillion, zealous, zenith, zephyr, zeppelin, zinnia, ziti, zither, zloty, zoology, zoned, zest, zealot, zebu, zydeco, zygote, zircon, zombify, zori, zabaglione, zaftig, zarf, zeitgeist, zemstvo, ziggurat, zinger, zircon, zoetrope, zonked, zounds, zugzwang, zwieback, zymurgy, zyzzyva",
+  },
+  {
+    id: "double-letters",
+    pack: "words",
+    text: "A word with a double O",
+    answers:
+      "book, moon, food, cool, door, good, look, room, school, boot, foot, pool, tooth, spoon, soon, zoo, floor, cook, wood, roof, noon, balloon, broom, hook, loop, mood, poop, shoot, stool, tool, cartoon, raccoon, igloo, bamboo, shampoo, kangaroo, cookie, goose, moose, noodle, poodle, rooster, scooter, choose, smooth, gloomy, bloom, groom, snooze, voodoo, typhoon, monsoon, lagoon, harpoon, maroon, macaroon, boondoggle, hoopla, swoop, snoop, droop, coop, brooch, schooner, troop, uncool, cuckoo, zooplankton, doohickey, kerfuffle",
+  },
+  {
+    id: "rhymes-day",
+    pack: "words",
+    text: "A word that rhymes with DAY",
+    answers:
+      "say, play, way, may, pay, stay, hay, gray/grey, bay, ray, day, clay, pray, tray, spray, sway, okay, away, today, hooray, stray, they, weigh, sleigh, neigh, prey, obey, delay, display, birthday, holiday, monday, friday, buffet, ballet, bouquet, cafe, decay, essay, relay, survey, x ray, betray, convey, dismay, portray, array, bidet, gourmet, cabaret, cliche, fiance, matinee, negligee, protege, resume, soiree, beret, filet, parfait, risque, touche, cachet, entree, valet, dossier, consomme",
+  },
+  {
+    id: "body-idioms",
+    pack: "words",
+    text: "A phrase or idiom with a body part in it",
+    answers:
+      "break a leg, cold feet, piece of cake, keep an eye on, give a hand, cost an arm and a leg, head over heels, all ears, bite your tongue, pull my leg, by the skin of your teeth, heart of gold, get off my back, keep your chin up, face the music, turn a blind eye, lend an ear, play it by ear, on the tip of my tongue, foot in mouth, sweet tooth, thumbs up, green thumb, rule of thumb, elbow grease, shoulder to cry on, cold shoulder, chip on your shoulder, stick your neck out, pain in the neck, butterflies in my stomach, nose to the grindstone, keep your nose clean, under your nose, hand in hand, wrapped around your finger, heart on your sleeve, finger on the pulse, back to square one, bend over backwards, get cold feet, toe the line, knee jerk, lily livered, shin splints, bone to pick, skeleton in the closet, spineless, bare bones, a leg up, armed to the teeth, cheek by jowl, hair of the dog",
+  },
+  {
+    id: "palindromes",
+    pack: "words",
+    text: "A palindrome (reads the same backwards)",
+    answers:
+      "racecar, mom, dad, wow, level, noon, kayak, radar, madam, civic, refer, eye, pop, bob, anna, hannah, otto, rotor, stats, tenet, deed, peep, sis, nun, toot, gag, pup, did, ere, solos, redder, sagas, shahs, minim, reviver, rotator, deified, repaper, tattarrattat, malayalam, aibohphobia, kinnikinnik, detartrated, redivider, murdrum, rotavator, wassamassaw",
+  },
+  {
+    id: "onomatopoeia",
+    pack: "words",
+    text: "A sound word (like BUZZ)",
+    answers:
+      "boom, bang, pop, buzz, meow, woof, moo, splash, crash, bark, hiss, ding, beep, honk, oink, quack, tick tock, knock, zap, pow, sizzle, crunch, whoosh, thud, boing, clap, snap, crackle, drip, ring, roar, growl, chirp, tweet, ribbit, neigh, baa, cluck, squeak, slurp, burp, achoo, hiccup, vroom, zoom, kaboom, splat, thump, rustle, gurgle, murmur, clang, clink, jingle, twang, plop, fizz, swish, whirr, purr, howl, hoot, caw, cuckoo, bleat, bray, kerplunk, kerfuffle, thwack, ker-ching, brrr, tsk, glug, plink, schwing, fwoosh",
+  },
 ];

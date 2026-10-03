@@ -1,68 +1,55 @@
 import { PROMPTS, type Pack, type Prompt } from "./prompts";
 
-// The clock starts at this and refills to it after every correct answer.
+// A dig is 7 prompts. Each prompt takes exactly one answer, against a 25 second clock.
+export const PROMPTS_PER_DIG = 7;
 export const ANSWER_SECONDS = 25;
-export const DAILY_ROUNDS = 5;
+
+// Every point drills this many metres. A perfect dig (7 x 120) reaches 12,600 m,
+// just past the deepest hole people have ever drilled.
+export const METERS_PER_POINT = 15;
 
 export type TierId = "topsoil" | "clay" | "bedrock" | "magma" | "drillion";
+export type ResultTier = TierId | "dud";
 
 export type Tier = {
   id: TierId;
   name: string;
   points: number;
-  depth: string;
   line: string;
+  /** Share of the ranked answer list that falls in this tier (cumulative). */
+  upTo: number;
 };
 
-// Shallowest first. `upTo` is the share of the ranked list that falls in this tier.
-export const TIERS: (Tier & { upTo: number })[] = [
-  { id: "topsoil", name: "Topsoil", points: 1, depth: "0 m", line: "The one everybody says first.", upTo: 0.15 },
-  { id: "clay", name: "Clay", points: 2, depth: "40 m", line: "Solid. Most people get here.", upTo: 0.4 },
-  { id: "bedrock", name: "Bedrock", points: 4, depth: "900 m", line: "Now you're drilling.", upTo: 0.65 },
-  { id: "magma", name: "Magma", points: 7, depth: "35 km", line: "Hot. Very few reach this.", upTo: 0.87 },
-  { id: "drillion", name: "Drillion", points: 12, depth: "6,371 km", line: "Straight through to the core.", upTo: 1 },
+// Shallowest first.
+export const TIERS: Tier[] = [
+  { id: "topsoil", name: "Topsoil", points: 10, line: "Everyone digs here first.", upTo: 0.15 },
+  { id: "clay", name: "Clay", points: 25, line: "Past the roots. Plenty of company.", upTo: 0.4 },
+  { id: "bedrock", name: "Bedrock", points: 50, line: "Hard rock. The crowd thins out.", upTo: 0.65 },
+  { id: "magma", name: "Magma", points: 80, line: "Hot enough to melt the bit. Few get here.", upTo: 0.87 },
+  { id: "drillion", name: "Drillion", points: 120, line: "One in a drillion. Nobody saw that coming.", upTo: 1 },
 ];
 
+export const DUD = { id: "dud" as const, name: "Stalled", points: 0, line: "The bit spun in place. No depth gained." };
+
 export const tierById = (id: TierId) => TIERS.find((t) => t.id === id)!;
+export const tierInfo = (id: ResultTier) => (id === "dud" ? DUD : tierById(id));
 
-// Shown in the feedback line and the hit popup.
-export const HIT_CALL: Record<TierId, string> = {
-  topsoil: "Surface find",
-  clay: "Solid dig",
-  bedrock: "Struck rock",
-  magma: "Magma!",
-  drillion: "Drillion!",
-};
-
-// Score ranks share the layer names: the layer your drill ends in is your rank.
-// `mins` are the score where each layer starts; `cap` is where the drill hits the core.
-export type RankScale = { mins: number[]; cap: number };
-export const ROUND_RANKS: RankScale = { mins: [0, 15, 35, 60, 90], cap: 140 };
-export const DAILY_RANKS: RankScale = { mins: [0, 70, 170, 290, 430], cap: 650 };
-
+// Ranks for a whole dig, by total score. The names match the layers.
+export const RANK_MINS = [0, 150, 300, 450, 630];
 export const RANK_LINES: Record<TierId, string> = {
-  topsoil: "Scratched the surface. The worms barely noticed.",
-  clay: "Past the roots. The drill hums along.",
-  bedrock: "Hard rock now. Sparks fly off the bit.",
-  magma: "The casing is glowing. Keep going.",
-  drillion: "Through the crust, straight to the core.",
+  topsoil: "A scratch in the dirt. The worms barely noticed.",
+  clay: "A tidy hole. The rig is warming up.",
+  bedrock: "Through solid rock. Sparks off the bit.",
+  magma: "The casing glows. The crew is getting nervous.",
+  drillion: "Clean through the crust. They'll name the hole after you.",
 };
 
-export function rankIndex(score: number, scale: RankScale): number {
+export function rankFor(score: number): TierId {
   let i = 0;
-  scale.mins.forEach((min, idx) => {
+  RANK_MINS.forEach((min, idx) => {
     if (score >= min) i = idx;
   });
-  return i;
-}
-
-// Continuous depth from 0 (surface) to 5 (core). The whole part is the layer,
-// the fraction is how far into that layer the drill has gone.
-export function scoreToDepth(score: number, scale: RankScale): number {
-  const i = rankIndex(score, scale);
-  const start = scale.mins[i];
-  const end = scale.mins[i + 1] ?? scale.cap;
-  return Math.min(5, i + Math.min(1, (score - start) / (end - start)));
+  return TIERS[i].id;
 }
 
 export type Entry = {
@@ -72,10 +59,14 @@ export type Entry = {
   tier: TierId;
 };
 
-export type GuessResult =
-  | { kind: "hit"; entry: Entry; typed: string }
-  | { kind: "duplicate"; entry: Entry; typed: string }
-  | { kind: "miss"; typed: string };
+export type Answer = {
+  promptId: string;
+  typed: string;
+  /** Canonical answer that matched, or null if the clock ran out. */
+  canonical: string | null;
+  tier: ResultTier;
+  points: number;
+};
 
 export function normalize(s: string): string {
   return s
@@ -161,18 +152,15 @@ export function findEntry(entries: Entry[], typed: string): Entry | null {
   return best;
 }
 
-export function judge(entries: Entry[], typed: string, found: Set<string>): GuessResult {
-  const entry = findEntry(entries, typed);
-  if (!entry) return { kind: "miss", typed };
-  if (found.has(entry.canonical)) return { kind: "duplicate", entry, typed };
-  return { kind: "hit", entry, typed };
+export function answerFrom(prompt: Prompt, entry: Entry | null, typed: string): Answer {
+  if (!entry) return { promptId: prompt.id, typed, canonical: null, tier: "dud", points: 0 };
+  return { promptId: prompt.id, typed, canonical: entry.canonical, tier: entry.tier, points: tierById(entry.tier).points };
 }
 
-export function scoreOf(hits: Entry[]): number {
-  return hits.reduce((sum, e) => sum + tierById(e.tier).points, 0);
-}
+export const totalOf = (answers: Answer[]) => answers.reduce((s, a) => s + a.points, 0);
+export const metersOf = (score: number) => score * METERS_PER_POINT;
 
-// Small deterministic PRNG so every player gets the same daily prompts.
+// Small deterministic PRNG so every player gets the same prompts for a given seed.
 function mulberry32(seed: number) {
   return () => {
     seed |= 0;
@@ -183,38 +171,51 @@ function mulberry32(seed: number) {
   };
 }
 
-export function todayKey(d = new Date()): string {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
+function pick(pool: Prompt[], count: number, rand: () => number): Prompt[] {
+  const left = [...pool];
+  const out: Prompt[] = [];
+  while (out.length < count && left.length) out.push(left.splice(Math.floor(rand() * left.length), 1)[0]);
+  return out;
 }
 
-// Day 1 is the launch date, used for the "Dig #N" label.
+// Dig #1 is launch day. Uses local midnight so the dig flips at the player's midnight.
 const LAUNCH = new Date(2026, 8, 28);
-export function digNumber(d = new Date()): number {
+export function todaysDig(d = new Date()): number {
   const start = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  return Math.floor((start.getTime() - LAUNCH.getTime()) / 86_400_000) + 1;
+  return Math.round((start.getTime() - LAUNCH.getTime()) / 86_400_000) + 1;
 }
 
-export function dailyPrompts(key = todayKey()): Prompt[] {
-  const rand = mulberry32(Number(key.replace(/-/g, "")));
-  const pool = [...PROMPTS];
-  const picked: Prompt[] = [];
-  while (picked.length < DAILY_ROUNDS && pool.length) {
-    picked.push(pool.splice(Math.floor(rand() * pool.length), 1)[0]);
-  }
-  return picked;
+export function digDate(dig: number): Date {
+  return new Date(LAUNCH.getFullYear(), LAUNCH.getMonth(), LAUNCH.getDate() + dig - 1);
 }
 
-// Unlimited mode: random prompt, avoiding the ones played recently.
-export function randomPrompt(pack: Pack | "all", recent: string[]): Prompt {
-  const pool = PROMPTS.filter((p) => pack === "all" || p.pack === pack);
-  const fresh = pool.filter((p) => !recent.includes(p.id));
-  const from = fresh.length ? fresh : pool;
-  return from[Math.floor(Math.random() * from.length)];
+export function dailyPrompts(dig: number): Prompt[] {
+  return pick(PROMPTS, PROMPTS_PER_DIG, mulberry32(dig * 7919));
 }
 
-export function deepestHit(hits: Entry[]): Entry | null {
-  return hits.reduce<Entry | null>((best, e) => (!best || e.rank > best.rank ? e : best), null);
+export const CHAPTERS_PER_PACK = 12;
+
+export function packPrompts(pack: Pack, chapter: number): Prompt[] {
+  const pool = PROMPTS.filter((p) => p.pack === pack);
+  const salt = [...pack].reduce((h, c) => h * 31 + c.charCodeAt(0), 7);
+  return pick(pool, PROMPTS_PER_DIG, mulberry32(salt + chapter * 104729));
+}
+
+// Unlimited: 7 random prompts, avoiding the ones seen most recently.
+export function unlimitedPrompts(recent: string[]): Prompt[] {
+  const fresh = PROMPTS.filter((p) => !recent.includes(p.id));
+  const pool = fresh.length >= PROMPTS_PER_DIG ? fresh : PROMPTS;
+  return pick(pool, PROMPTS_PER_DIG, Math.random);
+}
+
+// The rarer answers the player could have given, for the reveal card.
+export function deeperPicks(prompt: Prompt, than: TierId | "dud", count = 3): string[] {
+  const order = TIERS.map((t) => t.id);
+  const floor = than === "dud" ? -1 : order.indexOf(than);
+  return entriesFor(prompt)
+    .filter((e) => order.indexOf(e.tier) > floor)
+    .slice(-count * 3)
+    .filter((_, i, arr) => i % Math.max(1, Math.floor(arr.length / count)) === 0)
+    .slice(0, count)
+    .map((e) => e.canonical);
 }

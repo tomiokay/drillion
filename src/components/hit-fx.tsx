@@ -1,6 +1,14 @@
-import { PixelIcon } from "@/components/pixel-icon";
+import { TierSprite } from "@/components/sprite";
 import { cn } from "@/lib/utils";
-import { HIT_CALL, tierById, type TierId } from "@/lib/game";
+import { tierById, type TierId } from "@/lib/game";
+
+const HIT_CALL: Record<TierId, string> = {
+  topsoil: "Surface find",
+  clay: "Solid dig",
+  bedrock: "Struck rock",
+  magma: "Magma!",
+  drillion: "Drillion!",
+};
 
 export type FxEvent = {
   id: number;
@@ -42,7 +50,7 @@ export function HitFx({ events }: { events: FxEvent[] }) {
       {events.map((e) => {
         const tier = tierById(e.tier);
         return (
-          <div key={e.id} className="absolute top-1/2 left-1/3">
+          <div key={e.id} className="absolute top-1/3 left-1/2">
             {e.particles.map((p, i) => (
               <span
                 key={i}
@@ -61,12 +69,12 @@ export function HitFx({ events }: { events: FxEvent[] }) {
             ))}
             <span
               className={cn(
-                "fx-pop font-wide absolute flex -translate-x-1/2 items-center gap-1.5 font-black whitespace-nowrap drop-shadow-[0_2px_0_rgba(0,0,0,0.6)]",
+                "fx-pop font-pixel absolute flex -translate-x-1/2 items-center gap-1.5 font-black whitespace-nowrap drop-shadow-[0_2px_0_rgba(0,0,0,0.6)]",
                 e.tier === "drillion" ? "text-3xl" : e.tier === "magma" ? "text-2xl" : "text-xl",
               )}
               style={{ color: `var(--tier-${e.tier})` }}
             >
-              <PixelIcon tier={e.tier} size={e.tier === "drillion" ? 28 : 20} />+{tier.points} {HIT_CALL[e.tier]}
+              <TierSprite tier={e.tier} scale={e.tier === "drillion" ? 2.8 : 2} />+{tier.points} {HIT_CALL[e.tier]}
             </span>
           </div>
         );
@@ -82,9 +90,9 @@ export function DrillionFlash({ word }: { word: string }) {
       <div className="fx-flash absolute inset-0" />
       <div className="fx-rays absolute top-1/2 left-1/2 size-[140vmax]" />
       <div className="fx-banner relative flex flex-col items-center gap-2 text-center">
-        <PixelIcon tier="drillion" size={64} />
-        <span className="font-wide text-6xl font-black text-[#2a1f05] sm:text-8xl">Drillion!</span>
-        <span className="font-wide rounded-md bg-[#2a1f05] px-3 py-1 text-xl font-bold text-tier-drillion capitalize">
+        <TierSprite tier="drillion" scale={6.4} />
+        <span className="font-pixel text-6xl text-[#2a1f05] sm:text-8xl">Drillion!</span>
+        <span className="font-pixel rounded-md bg-[#2a1f05] px-3 py-1 text-xl font-bold text-tier-drillion capitalize">
           {word}
         </span>
       </div>

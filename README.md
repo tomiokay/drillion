@@ -1,9 +1,11 @@
 # Drillion
 
-A word game: one prompt, 60 seconds, type as many answers as you can. Rare answers drill deeper and score more.
+A daily word game. 7 prompts, one answer each, 25 seconds per answer. Rare answers drill deeper.
 
-- **Daily dig**: the same 5 prompts for everyone each day, one try, shareable result.
-- **Unlimited**: endless random prompts, from every pack or a single one. Free, no cap.
+- **Today's dig** (`/`): the same 7 prompts for everyone, once a day, with a streak and a share card.
+- **Unlimited** (`/unlimited`): endless digs from the whole prompt pool. Free.
+- **Archive** (`/archive`): every past daily, still playable.
+- **Themed packs** (`/packs`): 7 topics, 12 chapters each.
 
 ## Run it
 
@@ -12,8 +14,9 @@ npm install
 npm run dev
 ```
 
-## How scoring works
+## How it works
 
-Each prompt in `src/lib/prompts.ts` lists its answers from most to least common. An answer's position sets its layer (Topsoil +1, Clay +2, Bedrock +4, Magma +7, Drillion +12). Matching in `src/lib/game.ts` accepts alternate spellings, plurals, and small typos.
-
-Progress and stats live in localStorage. There's no backend yet.
+- Prompts live in `src/lib/prompts.ts`, answers ordered from most to least common. Position sets the tier: Topsoil 10, Clay 25, Bedrock 50, Magma 80, Drillion 120.
+- Every point drills 15 m. A perfect dig reaches 12,600 m. Depth zones and landmarks are in `src/lib/depth.ts`.
+- All art is hand-drawn pixel grids in `src/components/sprite.tsx`.
+- Progress, streaks and stats are stored in localStorage. No backend yet.
